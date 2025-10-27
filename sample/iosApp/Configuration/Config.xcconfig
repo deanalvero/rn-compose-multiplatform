@@ -1,0 +1,7 @@
+TEAM_ID=
+
+PRODUCT_NAME=RN Renderer
+PRODUCT_BUNDLE_IDENTIFIER=io.github.deanalvero.renderer.rn.demoapp.RNRenderer$(TEAM_ID)
+
+CURRENT_PROJECT_VERSION=1
+MARKETING_VERSION=1.0
