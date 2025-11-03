@@ -1,9 +1,11 @@
 package io.github.deanalvero.rn.cmp
 
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.ui.graphics.Color
+import androidx.compose.runtime.setValue
 import io.github.deanalvero.parser.jsx.JsxParser
 import io.github.deanalvero.parser.jsx.attributevalue.JsxAttributeValue
 import io.github.deanalvero.parser.jsx.attributevalue.JsxExpressionContainer
@@ -19,6 +21,8 @@ import io.github.deanalvero.rn.cmp.data.ReactNativeState
 import io.github.deanalvero.rn.cmp.data.TextContent
 import io.github.deanalvero.rn.cmp.data.UINode
 import io.github.deanalvero.rn.cmp.parser.StyleParser
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 
 @Composable
 fun ReactNativeComposable(
@@ -26,16 +30,21 @@ fun ReactNativeComposable(
     state: ReactNativeState,
     customComponents: Map<String, CustomComposable> = emptyMap()
 ) {
-    val rootNode = remember(tags) { parseJsx(tags) }
-
-    if (rootNode != null) {
+    var rootNode by remember {
+        mutableStateOf<UINode?>(null)
+    }
+    LaunchedEffect(tags, state) {
+        val parsedNode = withContext(Dispatchers.Default) {
+            parseJsx(tags)
+        }
+        rootNode = parsedNode
+    }
+    rootNode?.let {
         NodeComposable(
-            node = rootNode,
+            node = it,
             state = state,
             customComponents = customComponents
         )
-    } else {
-        Text("Error parsing JSX", color = Color.Red)
     }
 }
 
