@@ -1,7 +1,5 @@
 package io.github.deanalvero.rn.cmp.data
 
-import io.github.deanalvero.rn.cmp.data.AttributeValue
-
 data class UINode(
     val tagName: String,
     val attributes: Map<String, AttributeValue>,

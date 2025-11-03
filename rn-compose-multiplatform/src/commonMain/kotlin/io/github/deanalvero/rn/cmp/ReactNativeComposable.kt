@@ -120,6 +120,5 @@ private fun convertAttrValue(value: JsxAttributeValue?): AttributeValue {
             }
         }
         null -> AttributeValue.BooleanValue(true)
-//        else -> AttributeValue.StringValue(value.toString())
     }
 }

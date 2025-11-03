@@ -1,14 +1,10 @@
-# React Native Compose Multiplatform
-A declarative UI rendering engine that enables React Native-style JSX syntax for Jetpack Compose applications, providing developers with a familiar API while leveraging Compose's powerful rendering capabilities.
+package io.github.deanalvero.renderer.rn.demoapp
 
-## Overview
-This library bridges the gap between React Native's declarative JSX syntax and Jetpack Compose's modern UI toolkit. It provides a comprehensive rendering system that parses JSX strings and converts them into native Compose components, enabling code reuse, rapid prototyping, and a gentler learning curve for developers transitioning between frameworks.
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
+import io.github.deanalvero.rn.cmp.ReactNativeComposable
+import io.github.deanalvero.rn.cmp.data.ReactNativeState
 
-## Dependency
-TODO
-
-## Usage
-```
 @Composable
 fun CounterSample() {
     val state = remember {
@@ -37,14 +33,3 @@ fun CounterSample() {
 
     ReactNativeComposable(tags = jsx, state = state)
 }
-```
-
-## Supported Components
-- View
-- Text
-- Button
-- TextInput
-- (more to be added)
-
-## Notes
-Enjoy!
