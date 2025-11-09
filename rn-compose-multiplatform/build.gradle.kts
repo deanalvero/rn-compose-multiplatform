@@ -1,9 +1,14 @@
+@file:OptIn(ExperimentalWasmDsl::class)
+
+import org.jetbrains.kotlin.gradle.ExperimentalWasmDsl
+
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.androidKotlinMultiplatformLibrary)
     alias(libs.plugins.composeMultiplatform)
     alias(libs.plugins.composeCompiler)
-//    alias(libs.plugins.androidLint)
+    id("com.vanniktech.maven.publish") version "0.30.0"
+    signing
 }
 
 kotlin {
@@ -25,6 +30,8 @@ kotlin {
             instrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         }
     }
+
+    jvm()
 
     // For iOS targets, this is also where you should
     // configure native binary output. For more information, see:
@@ -71,9 +78,9 @@ kotlin {
             dependencies {
                 implementation(libs.kotlin.stdlib)
                 implementation("io.github.deanalvero:jsx-parser:0.1.0")
-                implementation(compose.runtime)
-                implementation(compose.foundation)
-                implementation(compose.material3)
+                api(compose.runtime)
+                api(compose.foundation)
+                api(compose.material3)
             }
         }
 
@@ -108,6 +115,46 @@ kotlin {
                 // KMP dependencies declared in commonMain.
             }
         }
+
+
+        jvmMain {
+            dependencies {
+            }
+        }
+    }
+}
+
+mavenPublishing {
+    coordinates("io.github.deanalvero", "rn-compose-multiplatform", "0.1.0")
+
+    pom {
+        name.set("React Native Compose Multiplatform")
+        description.set("A Compose Multiplatform library for rendering React Native code.")
+        url.set("https://github.com/deanalvero/rn-compose-multiplatform")
+        licenses {
+            license {
+                name.set("The Apache License, Version 2.0")
+                url.set("https://www.apache.org/licenses/LICENSE-2.0.txt")
+            }
+        }
+        developers {
+            developer {
+                id.set("deanalvero")
+                name.set("Dean Vernon Alvero")
+                email.set((findProperty("email") as String?).orEmpty())
+            }
+        }
+        scm {
+            connection.set("scm:git:git://github.com/deanalvero/rn-compose-multiplatform.git")
+            developerConnection.set("scm:git:ssh://git@github.com:deanalvero/rn-compose-multiplatform.git")
+            url.set("https://github.com/deanalvero/rn-compose-multiplatform")
+        }
     }
 
+    publishToMavenCentral(com.vanniktech.maven.publish.SonatypeHost.CENTRAL_PORTAL)
+    signAllPublications()
+}
+
+signing {
+    useGpgCmd()
 }
