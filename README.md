@@ -4,6 +4,8 @@ A declarative UI rendering engine that enables React Native-style JSX syntax for
 ## Overview
 This library bridges the gap between React Native's declarative JSX syntax and Jetpack Compose's modern UI toolkit. It provides a comprehensive rendering system that parses JSX strings and converts them into native Compose components, enabling code reuse, rapid prototyping, and a gentler learning curve for developers transitioning between frameworks.
 
+Try out the WASM build of the sample app at https://deanalvero.github.io/rn-compose-multiplatform/.
+
 ## Dependency
 Add the dependency to your build.gradle. Replace version with what is available [here](https://central.sonatype.com/artifact/io.github.deanalvero/rn-compose-multiplatform/versions).
 ```
