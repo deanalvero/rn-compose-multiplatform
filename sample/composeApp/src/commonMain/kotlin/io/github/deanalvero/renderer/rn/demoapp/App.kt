@@ -13,7 +13,7 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
 import io.github.deanalvero.renderer.rn.demoapp.data.ComponentRepository
 import io.github.deanalvero.renderer.rn.demoapp.screens.ComponentDetailScreen
-import io.github.deanalvero.swiftycompose.cmp.demoapp.screens.ComponentListScreen
+import io.github.deanalvero.renderer.rn.demoapp.screens.ComponentListScreen
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable

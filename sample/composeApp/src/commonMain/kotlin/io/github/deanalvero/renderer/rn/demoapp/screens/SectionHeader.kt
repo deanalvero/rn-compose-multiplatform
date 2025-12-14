@@ -1,4 +1,4 @@
-package io.github.deanalvero.swiftycompose.cmp.demoapp.screens
+package io.github.deanalvero.renderer.rn.demoapp.screens
 
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme

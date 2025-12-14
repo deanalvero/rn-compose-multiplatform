@@ -31,7 +31,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.unit.dp
 import io.github.deanalvero.renderer.rn.demoapp.data.ComponentData
-import io.github.deanalvero.swiftycompose.cmp.demoapp.screens.SectionHeader
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

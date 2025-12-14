@@ -1,4 +1,4 @@
-package io.github.deanalvero.swiftycompose.cmp.demoapp.screens
+package io.github.deanalvero.renderer.rn.demoapp.screens
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.fillMaxSize
@@ -23,7 +23,7 @@ fun ComponentListScreen(
     onComponentSelected: (ComponentData) -> Unit
 ) {
     Scaffold(
-        topBar = { TopAppBar(title = { Text("SwiftyCompose CMP Demo") }) }
+        topBar = { TopAppBar(title = { Text("React Native Compose Multiplatform") }) }
     ) { padding ->
         LazyColumn(
             modifier = Modifier.fillMaxSize().padding(padding)
