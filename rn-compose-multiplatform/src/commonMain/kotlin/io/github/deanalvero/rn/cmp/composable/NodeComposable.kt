@@ -4,6 +4,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 import io.github.deanalvero.rn.cmp.composable.basic.ButtonComposable
+import io.github.deanalvero.rn.cmp.composable.basic.SwitchComposable
 import io.github.deanalvero.rn.cmp.composable.basic.TextComposable
 import io.github.deanalvero.rn.cmp.composable.basic.TextInputComposable
 import io.github.deanalvero.rn.cmp.composable.basic.ViewComposable
@@ -29,6 +30,7 @@ fun NodeComposable(
         tagName == "text" -> TextComposable(node, state)
         tagName == "textinput" -> TextInputComposable(node, state)
         tagName == "button" -> ButtonComposable(node, state)
+        tagName == "switch" -> SwitchComposable(node, state)
         else -> Text("Unsupported: $tagName", color = Color.Red)
     }
 }

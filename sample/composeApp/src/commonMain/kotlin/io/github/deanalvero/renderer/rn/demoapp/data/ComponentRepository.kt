@@ -6,7 +6,6 @@ import io.github.deanalvero.rn.cmp.data.ReactNativeState
 
 object ComponentRepository {
     val all = listOf(
-
         ComponentData(
             name = "Hello World!",
             codeSnippet = """
@@ -88,7 +87,58 @@ object ComponentRepository {
 
                 ReactNativeComposable(tags = jsx, state = state)
             }
-        )
+        ),
+        ComponentData(
+            name = "Settings",
+            codeSnippet = """
+                val state = remember {
+                    ReactNativeState(
+                        initialState = mapOf("notificationsEnabled" to false),
+                        valueChangeActionsMap = mapOf(
+                            "toggleNotifications" to { state, newValue ->
+                                state.setState("notificationsEnabled", newValue)
+                            }
+                        )
+                    )
+                }
+
+                val jsx = ""${'"'}
+                    <View style={{ flex: 1, backgroundColor: '#ffffff' }}>
+                        <Text>Notifications</Text>
+                        <Switch 
+                            value={notificationsEnabled} 
+                            onValueChange={toggleNotifications} 
+                        />
+                    </View>
+                ""${'"'}.trimIndent()
+
+                ReactNativeComposable(tags = jsx, state = state)
+            """.trimIndent(),
+            content = {
+                val state = remember {
+                    ReactNativeState(
+                        initialState = mapOf("notificationsEnabled" to false),
+                        valueChangeActionsMap = mapOf(
+                            "toggleNotifications" to { state, newValue ->
+                                state.setState("notificationsEnabled", newValue)
+                            }
+                        )
+                    )
+                }
+
+                val jsx = """
+                    <View style={{ flex: 1, backgroundColor: '#ffffff' }}>
+                        <Text>Notifications</Text>
+                        <Switch 
+                            value={notificationsEnabled} 
+                            onValueChange={toggleNotifications} 
+                        />
+                    </View>
+                """.trimIndent()
+
+                ReactNativeComposable(tags = jsx, state = state)
+            }
+        ),
     )
 
     fun getByName(name: String): ComponentData? = all.find { it.name == name }
