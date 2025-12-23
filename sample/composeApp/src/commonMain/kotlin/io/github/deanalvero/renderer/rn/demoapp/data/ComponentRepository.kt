@@ -93,7 +93,16 @@ object ComponentRepository {
             codeSnippet = """
                 val state = remember {
                     ReactNativeState(
-                        initialState = mapOf("notificationsEnabled" to false),
+                        initialState = mapOf(
+                            "notificationsEnabled" to false,
+                            "isNotificationsLocked" to false
+                        ),
+                        actionsMap = mapOf(
+                            "toggleNotificationsLock" to { state ->
+                                val current = state.getState<Boolean>("isNotificationsLocked") ?: false
+                                state.setState("isNotificationsLocked", !current)
+                            }
+                        ),
                         valueChangeActionsMap = mapOf(
                             "toggleNotifications" to { state, newValue ->
                                 state.setState("notificationsEnabled", newValue)
@@ -107,7 +116,13 @@ object ComponentRepository {
                         <Text>Notifications</Text>
                         <Switch 
                             value={notificationsEnabled} 
-                            onValueChange={toggleNotifications} 
+                            onValueChange={toggleNotifications}
+                            disabled={isNotificationsLocked}
+                        />
+                        
+                        <Button 
+                            title="Toggle Switch"
+                            onPress={toggleNotificationsLock} 
                         />
                     </View>
                 ""${'"'}.trimIndent()
@@ -117,7 +132,16 @@ object ComponentRepository {
             content = {
                 val state = remember {
                     ReactNativeState(
-                        initialState = mapOf("notificationsEnabled" to false),
+                        initialState = mapOf(
+                            "notificationsEnabled" to false,
+                            "isNotificationsLocked" to false
+                        ),
+                        actionsMap = mapOf(
+                            "toggleNotificationsLock" to { state ->
+                                val current = state.getState<Boolean>("isNotificationsLocked") ?: false
+                                state.setState("isNotificationsLocked", !current)
+                            }
+                        ),
                         valueChangeActionsMap = mapOf(
                             "toggleNotifications" to { state, newValue ->
                                 state.setState("notificationsEnabled", newValue)
@@ -131,7 +155,13 @@ object ComponentRepository {
                         <Text>Notifications</Text>
                         <Switch 
                             value={notificationsEnabled} 
-                            onValueChange={toggleNotifications} 
+                            onValueChange={toggleNotifications}
+                            disabled={isNotificationsLocked}
+                        />
+                        
+                        <Button 
+                            title="Toggle Switch"
+                            onPress={toggleNotificationsLock} 
                         />
                     </View>
                 """.trimIndent()

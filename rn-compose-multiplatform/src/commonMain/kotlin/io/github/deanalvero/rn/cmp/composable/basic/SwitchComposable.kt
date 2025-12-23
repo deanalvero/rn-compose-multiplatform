@@ -12,6 +12,12 @@ import io.github.deanalvero.rn.cmp.modifier.applyReactNativeStyle
 fun SwitchComposable(node: UINode, state: ReactNativeState) {
     val valueBinding = node.attributes["value"] as? AttributeValue.StateBinding
     val onValueChangeBinding = node.attributes["onValueChange"] as? AttributeValue.StateBinding
+    val onChangeBinding = node.attributes["onChange"] as? AttributeValue.StateBinding
+    val disabledBinding = (node.attributes["disabled"] as? AttributeValue.StateBinding)
+
+    val isDisabled = disabledBinding?.let {
+        state.getState<Boolean>(it.key)
+    } ?: false
 
     val isChecked = valueBinding?.let {
         state.getState<Boolean>(it.key)
@@ -23,7 +29,11 @@ fun SwitchComposable(node: UINode, state: ReactNativeState) {
             onValueChangeBinding?.let { binding ->
                 state.executeValueChangeAction(binding.key, newValue)
             }
+            onChangeBinding?.let { binding ->
+                state.executeAction(binding.key)
+            }
         },
-        modifier = Modifier.applyReactNativeStyle(node.attributes)
+        modifier = Modifier.applyReactNativeStyle(node.attributes),
+        enabled = !isDisabled
     )
 }
