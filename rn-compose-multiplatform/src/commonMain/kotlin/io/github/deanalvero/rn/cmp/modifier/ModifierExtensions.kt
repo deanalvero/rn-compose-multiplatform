@@ -5,60 +5,65 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.RectangleShape
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import io.github.deanalvero.rn.cmp.data.AttributeValue
 import io.github.deanalvero.rn.cmp.parser.ColorParser
-import kotlin.collections.component1
-import kotlin.collections.component2
 
 fun Modifier.applyReactNativeStyle(attributes: Map<String, AttributeValue>): Modifier {
     var modifier = this
-    val style = attributes["style"] as? AttributeValue.StyleObject ?: return this
+    val style = (attributes["style"] as? AttributeValue.StyleObject)?.properties ?: return this
 
-    style.properties.forEach { (key, value) ->
-        modifier = when (key) {
-            "backgroundColor" -> {
-                (value as? AttributeValue.StringValue)?.value?.let { colorStr ->
-                    try {
-                        ColorParser.parse(colorStr)?.let { modifier.background(it) } ?: modifier
-                    } catch (e: Exception) {
-                        modifier
-                    }
-                } ?: modifier
-            }
-            "borderWidth" -> {
-                val width = (value as? AttributeValue.NumberValue)?.value?.toInt()?.dp
-                val borderColor = style.properties["borderColor"]?.let { colorVal ->
-                    (colorVal as? AttributeValue.StringValue)?.value?.let { colorStr ->
-                        try {
-                            ColorParser.parse(colorStr)
-                        } catch (e: Exception) {
-                            null
-                        }
-                    }
-                } ?: Color.Black
+    fun getDp(key: String): Dp? =
+        (style[key] as? AttributeValue.NumberValue)?.value?.toFloat()?.dp
 
-                if (width != null) modifier.border(width, borderColor) else modifier
-            }
-            "width" -> {
-                (value as? AttributeValue.NumberValue)?.value?.toInt()?.dp?.let {
-                    modifier.width(it)
-                } ?: modifier
-            }
-            "height" -> {
-                (value as? AttributeValue.NumberValue)?.value?.toInt()?.dp?.let {
-                    modifier.height(it)
-                } ?: modifier
-            }
-            "padding" -> {
-                (value as? AttributeValue.NumberValue)?.value?.toInt()?.dp?.let {
-                    modifier.padding(it)
-                } ?: modifier
-            }
-            else -> modifier
-        }
+    fun getDp(specific: String, axis: String, general: String): Dp {
+        return getDp(specific)
+            ?: getDp(axis)
+            ?: getDp(general)
+            ?: 0.dp
     }
+
+    getDp("width")?.let { modifier = modifier.width(it) }
+    getDp("height")?.let { modifier = modifier.height(it) }
+
+    val borderRadius = getDp("borderRadius") ?: 0.dp
+    val shape = if (borderRadius > 0.dp) RoundedCornerShape(borderRadius) else RectangleShape
+
+    val backgroundColor = (style["backgroundColor"] as? AttributeValue.StringValue)?.value
+        ?.let { ColorParser.parse(it) }
+
+    if (borderRadius > 0.dp) {
+        modifier = modifier.clip(shape)
+    }
+
+    if (backgroundColor != null) {
+        modifier = modifier.background(backgroundColor, shape)
+    }
+
+    val borderWidth = getDp("borderWidth")
+    val borderColor = (style["borderColor"] as? AttributeValue.StringValue)?.value
+        ?.let { ColorParser.parse(it) } ?: Color.Black
+
+    if (borderWidth != null && borderWidth > 0.dp) {
+        modifier = modifier.border(borderWidth, borderColor, shape)
+    }
+
+    val paddingTop = getDp("paddingTop", "paddingVertical", "padding")
+    val paddingBottom = getDp("paddingBottom", "paddingVertical", "padding")
+    val paddingLeft = getDp("paddingLeft", "paddingHorizontal", "padding")
+    val paddingRight = getDp("paddingRight", "paddingHorizontal", "padding")
+
+    modifier = modifier.padding(
+        start = paddingLeft,
+        top = paddingTop,
+        end = paddingRight,
+        bottom = paddingBottom
+    )
     return modifier
 }
