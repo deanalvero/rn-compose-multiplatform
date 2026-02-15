@@ -169,6 +169,79 @@ object ComponentRepository {
                 ReactNativeComposable(tags = jsx, state = state)
             }
         ),
+        ComponentData(
+            name = "TouchableOpacity",
+            codeSnippet = """
+                val state = remember {
+                    ReactNativeState(
+                        initialState = mapOf("counter" to 0),
+                        actionsMap = mapOf(
+                            "increment" to { state ->
+                                val current = state.getState<Int>("counter") ?: 0
+                                state.setState("counter", current + 1)
+                            }
+                        )
+                    )
+                }
+
+                val jsx = ""${'"'}
+                    <View style={{ padding: 20 }}>
+                        <TouchableOpacity 
+                            style={{ 
+                                backgroundColor: '#007AFF', 
+                                padding: 16 
+                            }}
+                            activeOpacity={0.5}
+                            onPress={increment}>
+                            <Text style={{ color: 'white', fontSize: 18 }}>
+                                Increment
+                            </Text>
+                        </TouchableOpacity>
+                
+                        <Text style={{ fontSize: 40 }}>
+                            {counter}
+                        </Text>
+                    </View>
+                ""${'"'}.trimIndent()
+
+                ReactNativeComposable(tags = jsx, state = state)
+            """.trimIndent(),
+            content = {
+                val state = remember {
+                    ReactNativeState(
+                        initialState = mapOf("counter" to 0),
+                        actionsMap = mapOf(
+                            "increment" to { state ->
+                                val current = state.getState<Int>("counter") ?: 0
+                                state.setState("counter", current + 1)
+                            }
+                        )
+                    )
+                }
+
+                val jsx = """
+                    <View style={{ padding: 20 }}>
+                        <TouchableOpacity 
+                            style={{ 
+                                backgroundColor: '#007AFF', 
+                                padding: 16 
+                            }}
+                            activeOpacity={0.5}
+                            onPress={increment}>
+                            <Text style={{ color: 'white', fontSize: 18 }}>
+                                Increment
+                            </Text>
+                        </TouchableOpacity>
+                
+                        <Text style={{ fontSize: 40 }}>
+                            {counter}
+                        </Text>
+                    </View>
+                """.trimIndent()
+
+                ReactNativeComposable(tags = jsx, state = state)
+            }
+        )
     )
 
     fun getByName(name: String): ComponentData? = all.find { it.name == name }
