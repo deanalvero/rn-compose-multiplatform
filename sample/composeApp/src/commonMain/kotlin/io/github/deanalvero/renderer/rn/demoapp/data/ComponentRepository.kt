@@ -241,6 +241,103 @@ object ComponentRepository {
 
                 ReactNativeComposable(tags = jsx, state = state)
             }
+        ),
+        ComponentData(
+            name = "Pressable",
+            codeSnippet = """
+                val state = remember {
+                    ReactNativeState(
+                        initialState = mapOf("counter" to 0),
+                        actionsMap = mapOf(
+                            "increment" to {
+                                val current = it.getState<Int>("counter") ?: 0
+                                it.setState("counter", current + 1)
+                            },
+                            "triggerLongPress" to {
+                                println("onLongPress triggered!")
+                            },
+                            "triggerPressIn" to {
+                                println("onPressIn triggered!")
+                            },
+                            "triggerPressOut" to {
+                                println("onPressOut triggered!")
+                            }
+                        )
+                    )
+                }
+
+                val jsx = ""${'"'}
+                    <View style={{ padding: 20 }}>
+                        <Pressable
+                            style={{
+                                backgroundColor: '#007AFF',
+                                padding: 16
+                            }}
+                            activeOpacity={0.5}
+                            onPress={increment}
+                            onLongPress={triggerLongPress}
+                            onPressIn={triggerPressIn}
+                            onPressOut={triggerPressOut}>
+                            <Text style={{ color: 'white', fontSize: 18 }}>
+                                Increment
+                            </Text>
+                        </Pressable>
+                    
+                        <Text style={{ fontSize: 40 }}>
+                            {counter}
+                        </Text>
+                    </View>
+                ""${'"'}.trimIndent()
+
+                ReactNativeComposable(tags = jsx, state = state)
+            """.trimIndent(),
+            content = {
+                val state = remember {
+                    ReactNativeState(
+                        initialState = mapOf("counter" to 0),
+                        actionsMap = mapOf(
+                            "increment" to {
+                                val current = it.getState<Int>("counter") ?: 0
+                                it.setState("counter", current + 1)
+                            },
+                            "triggerLongPress" to {
+                                println("onLongPress triggered!")
+                            },
+                            "triggerPressIn" to {
+                                println("onPressIn triggered!")
+                            },
+                            "triggerPressOut" to {
+                                println("onPressOut triggered!")
+                            }
+                        )
+                    )
+                }
+
+                val jsx = """
+                    <View style={{ padding: 20 }}>
+                        <Pressable
+                            style={{
+                                backgroundColor: '#007AFF',
+                                padding: 16
+                            }}
+                            activeOpacity={0.5}
+                            onPress={increment}
+                            onLongPress={triggerLongPress}
+                            onPressIn={triggerPressIn}
+                            onPressOut={triggerPressOut}>
+                            <Text style={{ color: 'white', fontSize: 18 }}>
+                                Increment
+                            </Text>
+                        </Pressable>
+                    
+                        <Text style={{ fontSize: 40 }}>
+                            {counter}
+                        </Text>
+                    </View>
+                """.trimIndent()
+
+                ReactNativeComposable(tags = jsx, state = state)
+            }
         )
     )
 

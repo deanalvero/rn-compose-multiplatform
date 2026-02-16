@@ -4,6 +4,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 import io.github.deanalvero.rn.cmp.composable.basic.ButtonComposable
+import io.github.deanalvero.rn.cmp.composable.basic.PressableComposable
 import io.github.deanalvero.rn.cmp.composable.basic.SwitchComposable
 import io.github.deanalvero.rn.cmp.composable.basic.TextComposable
 import io.github.deanalvero.rn.cmp.composable.basic.TextInputComposable
@@ -33,6 +34,7 @@ fun NodeComposable(
         tagName == "button" -> ButtonComposable(node, state)
         tagName == "switch" -> SwitchComposable(node, state)
         tagName == "touchableopacity" -> TouchableOpacityComposable(node, state, customComponents)
+        tagName == "pressable" -> PressableComposable(node, state, customComponents)
         else -> Text("Unsupported: $tagName", color = Color.Red)
     }
 }
