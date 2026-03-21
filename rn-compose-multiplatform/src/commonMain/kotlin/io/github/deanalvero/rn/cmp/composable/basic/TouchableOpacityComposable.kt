@@ -15,6 +15,7 @@ import io.github.deanalvero.rn.cmp.composable.NodeComposable
 import io.github.deanalvero.rn.cmp.data.AttributeValue
 import io.github.deanalvero.rn.cmp.data.ReactNativeState
 import io.github.deanalvero.rn.cmp.data.UINode
+import io.github.deanalvero.rn.cmp.data.getActionKey
 import io.github.deanalvero.rn.cmp.modifier.applyReactNativeStyle
 
 @Composable
@@ -23,7 +24,7 @@ fun TouchableOpacityComposable(
     state: ReactNativeState,
     customComponents: Map<String, CustomComposable>
 ) {
-    val onPress = node.attributes["onPress"] as? AttributeValue.StateBinding
+    val onPress = node.attributes.getActionKey("onPress")
     val disabledBinding = node.attributes["disabled"] as? AttributeValue.StateBinding
     val activeOpacityAttr = node.attributes["activeOpacity"] as? AttributeValue.NumberValue
 
@@ -52,9 +53,7 @@ fun TouchableOpacityComposable(
             interactionSource = interactionSource,
             indication = null
         ) {
-            onPress?.let { binding ->
-                state.executeAction(binding.key)
-            }
+            onPress?.let { state.executeAction(it) }
         }
 
     Box(modifier = modifier) {

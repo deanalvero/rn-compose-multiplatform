@@ -6,13 +6,14 @@ import androidx.compose.ui.Modifier
 import io.github.deanalvero.rn.cmp.data.AttributeValue
 import io.github.deanalvero.rn.cmp.data.ReactNativeState
 import io.github.deanalvero.rn.cmp.data.UINode
+import io.github.deanalvero.rn.cmp.data.getActionKey
 import io.github.deanalvero.rn.cmp.modifier.applyReactNativeStyle
 
 @Composable
 fun SwitchComposable(node: UINode, state: ReactNativeState) {
     val valueBinding = node.attributes["value"] as? AttributeValue.StateBinding
-    val onValueChangeBinding = node.attributes["onValueChange"] as? AttributeValue.StateBinding
-    val onChangeBinding = node.attributes["onChange"] as? AttributeValue.StateBinding
+    val onValueChangeBinding = node.attributes.getActionKey("onValueChange")
+    val onChangeBinding = node.attributes.getActionKey("onChange")
     val disabledBinding = (node.attributes["disabled"] as? AttributeValue.StateBinding)
 
     val isDisabled = disabledBinding?.let {
@@ -26,11 +27,11 @@ fun SwitchComposable(node: UINode, state: ReactNativeState) {
     Switch(
         checked = isChecked,
         onCheckedChange = { newValue ->
-            onValueChangeBinding?.let { binding ->
-                state.executeValueChangeAction(binding.key, newValue)
+            onValueChangeBinding?.let {
+                state.executeValueChangeAction(it, newValue)
             }
-            onChangeBinding?.let { binding ->
-                state.executeAction(binding.key)
+            onChangeBinding?.let {
+                state.executeAction(it)
             }
         },
         modifier = Modifier.applyReactNativeStyle(node.attributes),

@@ -13,6 +13,7 @@ import io.github.deanalvero.rn.cmp.composable.NodeComposable
 import io.github.deanalvero.rn.cmp.data.AttributeValue
 import io.github.deanalvero.rn.cmp.data.ReactNativeState
 import io.github.deanalvero.rn.cmp.data.UINode
+import io.github.deanalvero.rn.cmp.data.getActionKey
 import io.github.deanalvero.rn.cmp.modifier.applyReactNativeStyle
 
 @OptIn(ExperimentalFoundationApi::class)
@@ -23,10 +24,10 @@ fun PressableComposable(
     customComponents: Map<String, CustomComposable>
 ) {
 
-    val onPress = node.attributes["onPress"] as? AttributeValue.StateBinding
-    val onLongPress = node.attributes["onLongPress"] as? AttributeValue.StateBinding
-    val onPressIn = node.attributes["onPressIn"] as? AttributeValue.StateBinding
-    val onPressOut = node.attributes["onPressOut"] as? AttributeValue.StateBinding
+    val onPress = node.attributes.getActionKey("onPress")
+    val onLongPress = node.attributes.getActionKey("onLongPress")
+    val onPressIn = node.attributes.getActionKey("onPressIn")
+    val onPressOut = node.attributes.getActionKey("onPressOut")
     val activeOpacityAttr = node.attributes["activeOpacity"] as? AttributeValue.NumberValue
     val activeOpacity = activeOpacityAttr?.value?.toFloat() ?: 0.3f
 
@@ -47,19 +48,19 @@ fun PressableComposable(
             detectTapGestures(
                 onPress = {
                     isPressed = true
-                    onPressIn?.let { state.executeAction(it.key) }
+                    onPressIn?.let { state.executeAction(it) }
 
                     val success = tryAwaitRelease()
 
                     isPressed = false
-                    onPressOut?.let { state.executeAction(it.key) }
+                    onPressOut?.let { state.executeAction(it) }
 
                     if (success) {
-                        onPress?.let { state.executeAction(it.key) }
+                        onPress?.let { state.executeAction(it) }
                     }
                 },
                 onLongPress = {
-                    onLongPress?.let { state.executeAction(it.key) }
+                    onLongPress?.let { state.executeAction(it) }
                 }
             )
         }

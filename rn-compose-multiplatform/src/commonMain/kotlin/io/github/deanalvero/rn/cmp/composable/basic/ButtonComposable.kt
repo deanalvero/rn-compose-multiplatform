@@ -7,18 +7,17 @@ import androidx.compose.ui.Modifier
 import io.github.deanalvero.rn.cmp.data.AttributeValue
 import io.github.deanalvero.rn.cmp.data.ReactNativeState
 import io.github.deanalvero.rn.cmp.data.UINode
+import io.github.deanalvero.rn.cmp.data.getActionKey
 import io.github.deanalvero.rn.cmp.modifier.applyReactNativeStyle
 
 @Composable
 fun ButtonComposable(node: UINode, state: ReactNativeState) {
     val title = (node.attributes["title"] as? AttributeValue.StringValue)?.value ?: "Button"
-    val onPress = node.attributes["onPress"] as? AttributeValue.StateBinding
+    val onPress = node.attributes.getActionKey("onPress")
 
     Button(
         onClick = {
-            onPress?.let { binding ->
-                state.executeAction(binding.key)
-            }
+            onPress?.let { state.executeAction(it) }
         },
         modifier = Modifier.applyReactNativeStyle(node.attributes)
     ) {

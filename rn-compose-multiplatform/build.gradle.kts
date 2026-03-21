@@ -77,7 +77,7 @@ kotlin {
         commonMain {
             dependencies {
                 implementation(libs.kotlin.stdlib)
-                implementation("io.github.deanalvero:jsx-parser:0.1.0")
+                implementation("io.github.deanalvero:jsx-parser:0.1.1")
                 api(compose.runtime)
                 api(compose.foundation)
                 api(compose.material3)

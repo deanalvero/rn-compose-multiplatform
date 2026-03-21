@@ -13,13 +13,14 @@ import androidx.compose.ui.Modifier
 import io.github.deanalvero.rn.cmp.data.AttributeValue
 import io.github.deanalvero.rn.cmp.data.ReactNativeState
 import io.github.deanalvero.rn.cmp.data.UINode
+import io.github.deanalvero.rn.cmp.data.getActionKey
 import io.github.deanalvero.rn.cmp.modifier.applyReactNativeStyle
 
 @Composable
 fun TextInputComposable(node: UINode, state: ReactNativeState) {
     val placeholder = (node.attributes["placeholder"] as? AttributeValue.StringValue)?.value ?: ""
     val valueBinding = node.attributes["value"] as? AttributeValue.StateBinding
-    val onChangeTextBinding = node.attributes["onChangeText"] as? AttributeValue.StateBinding
+    val onChangeTextBinding = node.attributes.getActionKey("onChangeText")
 
     var textValue by remember(valueBinding?.key) {
         mutableStateOf(valueBinding?.let { state.getState<String>(it.key) } ?: "")
@@ -39,8 +40,8 @@ fun TextInputComposable(node: UINode, state: ReactNativeState) {
         value = textValue,
         onValueChange = { newValue ->
             textValue = newValue
-            onChangeTextBinding?.let { binding ->
-                state.executeValueChangeAction(binding.key, newValue)
+            onChangeTextBinding?.let {
+                state.executeValueChangeAction(it, newValue)
             }
         },
         placeholder = { Text(placeholder) },
