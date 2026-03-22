@@ -125,8 +125,6 @@ kotlin {
 }
 
 mavenPublishing {
-    coordinates("io.github.deanalvero", "rn-compose-multiplatform", "0.1.0")
-
     pom {
         name.set("React Native Compose Multiplatform")
         description.set("A Compose Multiplatform library for rendering React Native code.")
