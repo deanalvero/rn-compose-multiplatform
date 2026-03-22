@@ -154,5 +154,12 @@ mavenPublishing {
 }
 
 signing {
-    useGpgCmd()
+    val signingKey = providers.environmentVariable("ORG_GRADLE_PROJECT_signingInMemoryKey")
+    val signingPassword = providers.environmentVariable("ORG_GRADLE_PROJECT_signingInMemoryKeyPassword")
+
+    if (signingKey.isPresent && signingPassword.isPresent) {
+        useInMemoryPgpKeys(signingKey.get(), signingPassword.get())
+    } else {
+        useGpgCmd()
+    }
 }
