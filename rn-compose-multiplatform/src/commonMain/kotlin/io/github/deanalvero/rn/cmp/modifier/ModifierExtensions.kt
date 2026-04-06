@@ -29,6 +29,18 @@ fun Modifier.applyReactNativeStyle(attributes: Map<String, AttributeValue>): Mod
             ?: 0.dp
     }
 
+    val marginTop = getDp("marginTop", "marginVertical", "margin")
+    val marginBottom = getDp("marginBottom", "marginVertical", "margin")
+    val marginLeft = getDp("marginLeft", "marginHorizontal", "margin")
+    val marginRight = getDp("marginRight", "marginHorizontal", "margin")
+
+    modifier = modifier.padding(
+        start = marginLeft,
+        top = marginTop,
+        end = marginRight,
+        bottom = marginBottom
+    )
+
     getDp("width")?.let { modifier = modifier.width(it) }
     getDp("height")?.let { modifier = modifier.height(it) }
 
